@@ -12,7 +12,7 @@ class Epicurious(AbstractScraper):
         return self.soup.find('h1', {'itemprop': 'name'}).get_text()
 
     def total_time(self):
-        return get_minutes(self.soup.findAll('p', {'class': 'summary_data'})[-1])
+        return -1
 
     def ingredients(self):
         ingredients_html = self.soup.findAll('li', {'itemprop': "ingredients"})
@@ -23,9 +23,13 @@ class Epicurious(AbstractScraper):
         ]
 
     def instructions(self):
-        instructions_html = self.soup.find('div', {'id': 'preparation'}).find_all('p')
+        instructions_html = self.soup.find('ol', {'class': 'preparation-groups'}).find_all('li')
 
         return '\n'.join([
             normalize_string(instruction.get_text())
             for instruction in instructions_html
         ])
+
+    def picture(self):
+        recipe_photos = self.soup.find('div', {'class': "recipe-image-container"}).find_all('img')
+        return [recipe_photo['srcset'] for recipe_photo in recipe_photos]
