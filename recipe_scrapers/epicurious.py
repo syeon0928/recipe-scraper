@@ -1,5 +1,5 @@
 from ._abstract import AbstractScraper
-from ._utils import get_minutes, normalize_string
+from ._utils import normalize_string
 
 
 class Epicurious(AbstractScraper):
@@ -31,5 +31,5 @@ class Epicurious(AbstractScraper):
         ])
 
     def picture(self):
-        recipe_photos = self.soup.find('div', {'class': "recipe-image-container"}).find_all('img')
-        return [recipe_photo['srcset'] for recipe_photo in recipe_photos]
+        recipe_photo = self.soup.find('div', {'class': "recipe-image-container"}).find('img')
+        return recipe_photo['srcset']
