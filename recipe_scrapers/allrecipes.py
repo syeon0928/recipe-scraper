@@ -30,3 +30,7 @@ class AllRecipes(AbstractScraper):
             normalize_string(instruction.get_text())
             for instruction in instructions_html
         ])
+
+    def picture(self):
+        recipe_photo = self.soup.find('img', {'class': 'rec-photo'})
+        return recipe_photo.attrs['src']
