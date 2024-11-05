@@ -6,7 +6,7 @@ class FoodNetwork(AbstractScraper):
 
     @classmethod
     def host(self):
-        return 'foodnetwork.com'
+        return 'foodnetwork.co.uk'
 
     def title(self):
         return self.soup.find('h1').find('span').get_text()
