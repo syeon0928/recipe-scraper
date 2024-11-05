@@ -1,6 +1,7 @@
 from urllib import request
-
 from bs4 import BeautifulSoup
+import ssl
+import certifi
 
 
 # some sites close their content for 'bots', so user-agent must be supplied
@@ -9,15 +10,17 @@ HEADERS = {
 }
 
 
-class AbstractScraper():
-
+class AbstractScraper:
     def __init__(self, url, test=False):
         if test:  # when testing, we load a file
             with url:
                 self.soup = BeautifulSoup(url.read(), "html.parser")
         else:
+            # Create an SSL context that uses the certifi certificate authority
+            context = ssl.create_default_context(cafile=certifi.where())
+
             self.soup = BeautifulSoup(request.urlopen(
-                request.Request(url, headers=HEADERS)).read(), "html.parser")
+                request.Request(url, headers=HEADERS), context=context).read(), "html.parser")
 
     def host(self):
         """ get the host of the url, so we can use the correct scraper (check __init__.py) """
