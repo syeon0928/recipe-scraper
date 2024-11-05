@@ -1,5 +1,6 @@
 from ._abstract import AbstractScraper
-from ._utils import normalize_string
+from ._utils import normalize_string, get_minutes, get_servings
+import re
 
 
 class Epicurious(AbstractScraper):
@@ -8,47 +9,89 @@ class Epicurious(AbstractScraper):
     def host(self):
         return 'epicurious.com'
 
-    def head(self):
-        return self.soup.find('title')
-
     def title(self):
-        return self.soup.find('h1', {'itemprop': 'name'}).get_text()
+        return self.soup.find('h1', {'data-testid': 'ContentHeaderHed'}).get_text().strip()
 
     def total_time(self):
-        return -1
+        info_items = self.soup.find_all('li', class_="InfoSliceListItem-hNmIoI cmiFLD")
+        # Loop through each item to find Total Time
+        for item in info_items:
+            # Find the key and value text in each item
+            key = item.find('p', class_="InfoSliceKey-gHIvng").get_text(strip=True)
+
+            # Check if the key matches "Total Time"
+            if key == "Total Time":
+                total_time = item.find('p', class_="InfoSliceValue-tfmqg")
+                return get_minutes(total_time)
+        else:
+                return None
 
     def ingredients(self):
-        ingredients_html = self.soup.findAll('li', {'itemprop': "ingredients"})
+        ingredients_container = self.soup.find('div', {'data-testid': 'IngredientList'})
 
-        return [
-            normalize_string(ingredient.get_text())
-            for ingredient in ingredients_html
-        ]
+        if not ingredients_container:
+            return None
+
+        # Find all ingredient items within the container
+        ingredient_items = ingredients_container.find_all('div', class_="BaseWrap-sc-gjQpdd BaseText-ewhhUZ Description-cSrMCf iUEiRd bGCtOd fsKnGI")
+
+        # Extract text from each ingredient item, cleaning up whitespace and newlines
+        ingredients = []
+        for item in ingredient_items:
+            text = item.get_text().strip()
+
+            # Ignore items containing "Equipment:"
+            if "Equipment:" in text:
+                continue
+
+            ingredients.append(text)
+
+        return ingredients
 
     def instructions(self):
-        instructions_html = self.soup.find('ol', {'class': 'preparation-groups'}).find_all('li')
+        instructions_container = self.soup.find('div', {'data-testid': 'InstructionsWrapper'})
 
-        return '\n'.join([
-            normalize_string(instruction.get_text())
-            for instruction in instructions_html
-        ])
+        if not instructions_container:
+            return None
+
+        # Find all instruction paragraphs within the ordered list
+        instruction_steps = instructions_container.find_all('p')
+
+        # Extract the text for each step
+        instructions = [re.split(r'\n', step.get_text().strip())[0] for step in instruction_steps]
+        return {i+1: instructions[i] for i in range(len(instructions))}
 
     def picture(self):
-        recipe_photo = self.soup.find('div', {'class': "recipe-image-container"}).find('img')
-        return recipe_photo['srcset']
+        recipe_photo = self.soup.find_all('img', class_="ResponsiveImageContainer-eybHBd fptoWY responsive-image__image")
+        return recipe_photo[2]['src']
 
     def tags(self):
         tag_cloud_div = self.soup.find('div', {'data-testid': 'TagCloudWrapper'})
         if tag_cloud_div:
-            tags = [
+            tagging = [
                 {
                     'tag': tag.find('span').get_text().strip(),
                     'category': tag['href'].strip('/').split('/')[0],
-                    'link': tag['href'],
                 }
                 for tag in tag_cloud_div.find_all('a', href=True)  # Only get <a> tags with href
-                if tag.find('span')  # Ensure there's a <span> for the tag name
             ]
+            return tagging
 
-if __name__ == '__main__':
-    pass
+    def servings(self):
+        info_items = self.soup.find_all('li', class_="InfoSliceListItem-hNmIoI cmiFLD")
+        # Loop through each item to find servings
+        for item in info_items:
+            # Find the key and value text in each item
+            key = item.find('p', class_="InfoSliceKey-gHIvng").get_text(strip=True)
+
+            if key == "Yield":
+                serving_amount = item.find('p', class_="InfoSliceValue-tfmqg")
+                return get_servings(serving_amount)
+
+        return None
+
+    def ratings(self):
+        ratings_div = self.soup.find('div', {'href': '#reviews'})
+        ratings = ratings_div.find_all('p')
+
+        return {'rating': float(ratings[0].get_text()), 'count': int(re.findall(r'\d+', ratings[1].get_text())[0])}
