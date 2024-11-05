@@ -20,7 +20,7 @@ class AbstractScraper:
             context = ssl.create_default_context(cafile=certifi.where())
 
             self.soup = BeautifulSoup(request.urlopen(
-                request.Request(url, headers=HEADERS), context=context).read(), "html.parser")
+                request.Request(url, headers=HEADERS), context=context).read(), "html.parser", from_encoding="utf-8")
 
     def host(self):
         """ get the host of the url, so we can use the correct scraper (check __init__.py) """
@@ -37,4 +37,16 @@ class AbstractScraper:
         raise NotImplementedError("This should be implemented.")
 
     def instructions(self):
+        raise NotImplementedError("This should be implemented.")
+
+    def picture(self):
+        raise NotImplementedError("This should be implemented.")
+
+    def tags(self):
+        raise NotImplementedError("This should be implemented.")
+
+    def servings(self):
+        raise NotImplementedError("This should be implemented.")
+
+    def ratings(self):
         raise NotImplementedError("This should be implemented.")
