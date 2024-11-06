@@ -4,8 +4,7 @@ HEADERS = {
 BASE_URL = 'https://www.epicurious.com/'
 RECIPE_URL = 'recipes/food/views/'
 RECIPES_URL_FILENAME = 'recipe_urls.json'
-
-recipe_lists2 = ['ingredient/apple', 'ingredient/cranberry', 'ingredient/fig', 'ingredient/pear']
+RECIPES_FILENAME = 'recipes.json'
 
 recipe_menus = {
     'most_popular': 'recipes-menus/most-popular-recipes-gallery',
