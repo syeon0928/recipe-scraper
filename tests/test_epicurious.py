@@ -2,13 +2,16 @@ import os
 import unittest
 
 from recipe_scrapers.epicurious import Epicurious
+from recipe_scrapers import scrap_me
 
 
 class TestEpicurious(unittest.TestCase):
     def setUp(self):
         # tests are run from tests.py
-        with open('test_data/epicurious.html') as file_opened:
-            self.harvester_class = Epicurious(file_opened, test=True)
+        # with open('test_data/epicurious.html') as file_opened:
+        #     self.harvester_class = Epicurious(file_opened, test=True)
+        url="https://www.epicurious.com/recipes/food/views/spicy-sichuan-tofu-em-mapo-doufu-em-242878"
+        self.harvester_class = scrap_me(url)
 
     def test_host(self):
         self.assertEqual(
@@ -74,6 +77,18 @@ class TestEpicurious(unittest.TestCase):
         return self.assertEqual(
             {'rating': 4.6, 'count': 13},
             self.harvester_class.ratings()
+        )
+
+    def test_author(self):
+        return self.assertEqual(
+            'Eileen Wen Mooney',
+            self.harvester_class.author()
+        )
+
+    def test_publish_date(self):
+        return self.assertEqual(
+            'April 11, 2022',
+            self.harvester_class.publish_date()
         )
 
 
