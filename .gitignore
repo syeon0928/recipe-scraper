@@ -1,5 +1,6 @@
 *.pyc
 *.egg-info
 .coverage
+*.html
 
 recipe_scrapers/tests/test_data/*.html
