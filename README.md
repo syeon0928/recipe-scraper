@@ -1,8 +1,34 @@
-## Recipe scrapers
+## Recipe scrapers (Personal Fork)
 
 [![Build Status](https://travis-ci.org/hhursev/recipe-scraper.svg?branch=master)](https://travis-ci.org/hhursev/recipe-scraper)
 [![Coverage Status](https://coveralls.io/repos/hhursev/recipe-scraper/badge.svg?branch=master&service=github)](https://coveralls.io/github/hhursev/recipe-scraper?branch=master)
 
+**Note:** This is a personal fork of the original [recipe-scraper repository](https://github.com/hhursev/recipe-scraper) by [hhursev](https://github.com/hhursev) mainly modified for [Epicurious website](http://epicurious.com).
+
+### Modification in This Fork
+1. Fix existing scraping code for recipe title, ingredients, instructions, and total time to match the changes in [epicurious.com](https://epicurious.com)
+2. Added feature to extract recipe tags, servings, and ratings
+```
+from recipe_scrapers import scrap_me
+
+# give the url as a string, it can be url from any site listed below
+    scrap_me = scrap_me('https://www.epicurious.com/recipes/food/views/spicy-sichuan-tofu-em-mapo-doufu-em-242878')
+
+    scrap_me.picture()
+    scrap_me.tags()
+    scrap_me.servings()
+    scrap_me.ratings()
+```
+3. src folder contains follow:
+ - gather_urls.py : logic for gathering all possible recipe urls in the website and save as json
+ - scrape.py : functions for scraping recipe information from url parameter
+
+4. db folder contains code related to saving urls as json, and saving recipe database to MongoDB.
+
+5. ToDO: update scrapers for other websites in the future, and combine them into current logic
+
+---
+### original ReadMe
 A simple web scraping tool for recipe sites I use in a project of mine that makes sense to live as
 a separate package. **No Python 2 support.**
 
@@ -42,7 +68,7 @@ If you are programmer PRs with fixes are warmly welcomed and acknowledged with a
 - [http://bonappetit.com/](http://bonappetit.com/)
 - [http://closetcooking.com/](http://closetcooking.com/)
 - [http://cookstr.com/](http://cookstr.com/)
-- [http://epicurious.com/](http://epicurious.com/)
+- [http://epicurious.com/](http://epicurious.com/) (**Updated**)
 - [http://finedininglovers.com/](https://www.finedininglovers.com/)
 - [http://foodrepublic.com/](http://foodrepublic.com)
 - [http://jamieoliver.com/](http://www.jamieoliver.com/)
