@@ -9,7 +9,6 @@ HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
 }
 
-
 class AbstractScraper:
     def __init__(self, url, test=False):
         if test:  # when testing, we load a file
@@ -49,4 +48,10 @@ class AbstractScraper:
         raise NotImplementedError("This should be implemented.")
 
     def ratings(self):
+        raise NotImplementedError("This should be implemented.")
+
+    def author(self):
+        raise NotImplementedError("This should be implemented.")
+
+    def publish_date(self):
         raise NotImplementedError("This should be implemented.")

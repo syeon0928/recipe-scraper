@@ -3,6 +3,7 @@ from ._utils import normalize_string, get_minutes, get_servings
 import re
 
 
+
 class Epicurious(AbstractScraper):
 
     @classmethod
@@ -24,7 +25,7 @@ class Epicurious(AbstractScraper):
                 total_time = item.find('p', class_="InfoSliceValue-tfmqg")
                 return get_minutes(total_time)
         else:
-                return None
+            return None
 
     def ingredients(self):
         ingredients_container = self.soup.find('div', {'data-testid': 'IngredientList'})
@@ -63,19 +64,24 @@ class Epicurious(AbstractScraper):
 
     def picture(self):
         recipe_photo = self.soup.find_all('img', class_="ResponsiveImageContainer-eybHBd fptoWY responsive-image__image")
+        if not recipe_photo:
+            return None
         return recipe_photo[2]['src']
 
     def tags(self):
         tag_cloud_div = self.soup.find('div', {'data-testid': 'TagCloudWrapper'})
-        if tag_cloud_div:
-            tagging = [
-                {
-                    'tag': tag.find('span').get_text().strip(),
-                    'category': tag['href'].strip('/').split('/')[0],
-                }
-                for tag in tag_cloud_div.find_all('a', href=True)  # Only get <a> tags with href
-            ]
-            return tagging
+
+        if not tag_cloud_div:
+            return None
+
+        tagging = [
+            {
+                'tag': tag.find('span').get_text().strip(),
+                'category': tag['href'].strip('/').split('/')[0],
+            }
+            for tag in tag_cloud_div.find_all('a', href=True)  # Only get <a> tags with href
+        ]
+        return tagging
 
     def servings(self):
         info_items = self.soup.find_all('li', class_="InfoSliceListItem-hNmIoI cmiFLD")
@@ -93,5 +99,21 @@ class Epicurious(AbstractScraper):
     def ratings(self):
         ratings_div = self.soup.find('div', {'href': '#reviews'})
         ratings = ratings_div.find_all('p')
-
+        if not ratings:
+            return None
         return {'rating': float(ratings[0].get_text()), 'count': int(re.findall(r'\d+', ratings[1].get_text())[0])}
+
+    def author(self):
+        # Find all <a> tags where href contains 'contributors/' followed by any text
+        contributor = self.soup.find('a', href=re.compile(r'/contributors/.*'))
+
+        if not contributor:
+            return None
+
+        return contributor.get_text().strip()
+
+    def publish_date(self):
+        publish_date = self.soup.find('time', {'data-testid': 'ContentHeaderPublishDate'})
+        if not publish_date:
+            return None
+        return publish_date.get_text().strip()
