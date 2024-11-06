@@ -36,7 +36,7 @@ def save_soup_as_html(soup, filename="soup_response.html"):
 def get_all_recipe_links():
     links = []
     page = 1
-    while True:
+    while page <= 417:
         print(f"Searching page {page}")
         url = f"{BASE_URL}search?q=&content=recipe&p={page}"
         soup = get_soup(url)
