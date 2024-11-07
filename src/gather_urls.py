@@ -3,8 +3,8 @@ from urllib import request
 from bs4 import BeautifulSoup
 import ssl
 import certifi
-from config import BASE_URL, HEADERS
-from util import *
+from src.config import BASE_URL, HEADERS
+from src.util import *
 
 
 def get_soup(url):

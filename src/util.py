@@ -1,4 +1,4 @@
-from config import BASE_URL, RECIPE_URL
+from src.config import BASE_URL, RECIPE_URL
 import os
 from urllib.parse import urljoin
 

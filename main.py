@@ -3,7 +3,7 @@ from src.config import *
 from src.gather_urls import *
 from src.scrape import get_recipe
 from db.json_db import *
-from db.mongo_db import *
+# from db.mongo_db import *
 
 
 def scrape_all_recipe_urls_from_menu():
