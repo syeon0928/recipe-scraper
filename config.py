@@ -8,7 +8,7 @@ BASE_URL = 'https://www.epicurious.com/'
 RECIPE_URL = 'recipes/food/views/'
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__)))
-RECIPES_URL_FILE_PATH = os.path.join(PROJECT_ROOT, 'db/recipes_urls.json')
+RECIPES_URL_FILE_PATH = os.path.join(PROJECT_ROOT, 'db/recipe_urls.json')
 RECIPES_FILE_PATH = os.path.join(PROJECT_ROOT, 'db/recipes.json')
 IMAGE_FOLDER_PATH = os.path.join(PROJECT_ROOT, 'db/images')
 

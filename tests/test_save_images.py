@@ -28,7 +28,7 @@ class TestSaveImages(TestCaseBase):
         self.assertIsFile(os.path.join(IMAGE_FOLDER_PATH, 'test.jpg'))
 
     def test_main(self):
-        main(test_recipes=self.test_recipes)
+        save_all_images(test_recipes=self.test_recipes)
 
 
 if __name__ == '__main__':

@@ -65,12 +65,12 @@ def json_db():
 
         # progress checking
         if i % 100 == 0:
-            save_to_json(all_recipes, filename=f'db/{RECIPES_FILE_PATH}')  # save to the file in case of disruption
+            save_to_json(all_recipes, filename=RECIPES_FILE_PATH)  # save to the file in case of disruption
             print(f"Save Points: {len(all_recipes)} saved to the file.")
 
     # Save all the recipes to json file
     print(f'Total recipes collected: {len(all_recipes)}')
-    save_to_json(all_recipes, filename=f'db/{RECIPES_FILE_PATH}')
+    save_to_json(all_recipes, filename=RECIPES_FILE_PATH)
 
 
 def mongo_db():
@@ -87,9 +87,8 @@ def main(db):
 
 
 if __name__ == '__main__':
-    if __name__ == '__main__':
-        parser = argparse.ArgumentParser()
-        parser.add_argument('--db', type=str, default='json',
-                            help='--mongo for using mongodb, make sure you have MONGO_URI in .env')
-        args = parser.parse_args()
-        main(args.db)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--db', type=str, default='json',
+                        help='--mongo for using mongodb, make sure you have MONGO_URI in .env')
+    args = parser.parse_args()
+    main(args.db)
