@@ -10,8 +10,12 @@ class TestEpicurious(unittest.TestCase):
         # with open('test_data/epicurious.html') as file_opened:
         #     self.harvester_class = Epicurious(file_opened, test=True)
         # url="https://www.epicurious.com/recipes/food/views/spicy-sichuan-tofu-em-mapo-doufu-em-242878"
-        url ="https://www.epicurious.com/recipes/food/views/blt-soup-385105"
+        # url ="https://www.epicurious.com/recipes/food/views/blt-soup-385105"
+        url = "https://www.epicurious.com/recipes/food/views/-chili-dogs-372838"
         self.harvester_class = scrap_me(url)
+        # Save the HTML content
+        with open('test_data/image_test.html', 'w', encoding='utf-8') as f:
+            f.write(str(self.harvester_class.soup.prettify()))
 
     def test_host(self):
         self.assertEqual(

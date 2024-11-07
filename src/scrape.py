@@ -18,7 +18,7 @@ def get_recipe(url):
             'servings': scraper.servings() if hasattr(scraper, 'servings') else None,
             'ratings': scraper.ratings() if hasattr(scraper, 'ratings') else None,
             'tags': scraper.tags() if hasattr(scraper, 'tags') else None,
-            'author': scraper.author() if hasattr(scraper, 'author') else None,
+            # 'author': scraper.author() if hasattr(scraper, 'author') else None,
             'publish_date': scraper.publish_date() if hasattr(scraper, 'publish_date') else None
 
         }
