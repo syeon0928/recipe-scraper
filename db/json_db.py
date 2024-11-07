@@ -12,7 +12,7 @@ def load_json_to_set(filename=f'db/{RECIPES_URL_FILENAME}'):
     if os.path.exists(filename):
         with open(filename, "r") as f:
             loaded_json = set(json.load(f))
-            print(f'{len(loaded_json)} recipes URLs exists in the file')
+            print(f'{len(loaded_json)} recipes URLs exists in the file.')
             return loaded_json
     return set()
 
@@ -21,8 +21,8 @@ def load_json_to_list(filename=f'db/{RECIPES_FILENAME}'):
     """Loads recipe links from a JSON file."""
     if os.path.exists(filename):
         with open(filename, "r") as f:
-            loaded_json = [json.load(f)]
-            print(f'{len(loaded_json)} recipes URLs exists in the file')
+            loaded_json = json.load(f)
+            print(f'{len(loaded_json)} recipes already scraped.')
             return loaded_json
     return []
 
