@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../s
 from src.config import *
 
 
-def load_json_to_set(filename=f'db/{RECIPES_URL_FILENAME}'):
+def load_json_to_set(filename=RECIPES_URL_FILE_PATH):
     """Loads recipe links from a JSON file."""
     if os.path.exists(filename):
         with open(filename, "r") as f:
@@ -17,7 +17,7 @@ def load_json_to_set(filename=f'db/{RECIPES_URL_FILENAME}'):
     return set()
 
 
-def load_json_to_list(filename=f'db/{RECIPES_FILENAME}'):
+def load_json_to_list(filename=RECIPES_FILE_PATH):
     """Loads recipe links from a JSON file."""
     if os.path.exists(filename):
         with open(filename, "r") as f:
@@ -27,7 +27,7 @@ def load_json_to_list(filename=f'db/{RECIPES_FILENAME}'):
     return []
 
 
-def save_to_json(links, filename=f'db/{RECIPES_URL_FILENAME}'):
+def save_to_json(links, filename=RECIPES_URL_FILE_PATH):
     """Saves recipe links to a JSON file."""
     with open(filename, "w") as f:
         json.dump(list(links), f, indent=4)

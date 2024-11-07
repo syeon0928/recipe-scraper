@@ -64,12 +64,12 @@ def main():
 
         # progress checking
         if i % 100 == 0:
-            save_to_json(all_recipes, filename=f'db/{RECIPES_FILENAME}')  # save to the file in case of disruption
+            save_to_json(all_recipes, filename=f'db/{RECIPES_FILE_PATH}')  # save to the file in case of disruption
             print(f"Save Points: {len(all_recipes)} saved to the file.")
 
     # Save all the recipes to json file
     print(f'Total recipes collected: {len(all_recipes)}')
-    save_to_json(all_recipes, filename=f'db/{RECIPES_FILENAME}')
+    save_to_json(all_recipes, filename=f'db/{RECIPES_FILE_PATH}')
 
 
 if __name__ == '__main__':
