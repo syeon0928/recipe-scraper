@@ -3,10 +3,11 @@ import os
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
 }
+
 BASE_URL = 'https://www.epicurious.com/'
 RECIPE_URL = 'recipes/food/views/'
 
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 RECIPES_URL_FILE_PATH = os.path.join(PROJECT_ROOT, 'db/recipes_urls.json')
 RECIPES_FILE_PATH = os.path.join(PROJECT_ROOT, 'db/recipes.json')
 IMAGE_FOLDER_PATH = os.path.join(PROJECT_ROOT, 'db/images')

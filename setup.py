@@ -5,9 +5,11 @@ README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
 
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
+
 # Read the requirements from requirements.txt
 def read_requirements():
     with open('requirements.txt') as f:
+        print(f.read().splitlines())
         return f.read().splitlines()
 
 setup(

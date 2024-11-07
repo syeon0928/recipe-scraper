@@ -31,9 +31,9 @@ def save_image_locally(file_name, img_url):
         print(f'Error message: {e}')
 
 
-def main(test_recipes=False):
+def save_all_images(test_recipes=False):
     # Check already existing file names
-    images_extracted = set(os.listdir(config.IMAGE_FOLDER_PATH))
+    images_extracted = [name.replace('.jpg', '') for name in os.listdir(config.IMAGE_FOLDER_PATH)]
     print('{} images already exists in the folder'.format(len(images_extracted)))
 
     # Retrieve images urls in the recipes.json
@@ -45,9 +45,12 @@ def main(test_recipes=False):
                     for recipe in all_recipes if recipe['picture_link']}
 
     # Filter already extracted images
-    for key in all_img_urls.keys():
-        if key in images_extracted:
-            del all_img_urls[key]
+    # Collect keys to remove
+    keys_to_remove = [key for key in all_img_urls.keys() if key in images_extracted]
+
+    # Remove collected keys after the loop
+    for key in keys_to_remove:
+        del all_img_urls[key]
     print(f'{len(all_img_urls)} images to be extracted.')
 
     # Save images locally for filtered out image links
@@ -58,6 +61,4 @@ def main(test_recipes=False):
 
 
 if __name__ == '__main__':
-    print(config.IMAGE_FOLDER_PATH)
-    print(os.path.exists(config.IMAGE_FOLDER_PATH))
-    # main()
+    save_all_images()

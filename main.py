@@ -1,9 +1,10 @@
 # main.py
-from src.config import *
 from src.gather_urls import *
 from src.scrape import get_recipe
 from db.json_db import *
 # from db.mongo_db import *
+import argparse
+from db.save_images import *
 
 
 def scrape_all_recipe_urls_from_menu():
@@ -38,7 +39,7 @@ def scrape_all_recipe_urls_from_search():
     print(f"Scraping completed. Total recipes collected: {len(all_links)}")
 
 
-def main():
+def json_db():
     # Load URLs from JSON file
     urls_to_scrape = load_json_to_set()
     # Load existing scraped recipes
@@ -72,8 +73,23 @@ def main():
     save_to_json(all_recipes, filename=f'db/{RECIPES_FILE_PATH}')
 
 
+def mongo_db():
+    return None
+
+
+def main(db):
+    scrape_all_recipe_urls_from_search()
+    if db == 'json':
+        json_db()
+    if db == 'mongo':
+        mongo_db()
+    save_all_images()
+
+
 if __name__ == '__main__':
-    # scrape_all_recipe_urls_from_menu()
-    # scrape_all_recipe_urls_from_list()
-    # scrape_all_recipe_urls_from_search()
-    main()
+    if __name__ == '__main__':
+        parser = argparse.ArgumentParser()
+        parser.add_argument('--db', type=str, default='json',
+                            help='--mongo for using mongodb, make sure you have MONGO_URI in .env')
+        args = parser.parse_args()
+        main(args.db)
