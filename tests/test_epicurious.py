@@ -1,6 +1,5 @@
 import os
 import unittest
-
 from recipe_scrapers.epicurious import Epicurious
 from recipe_scrapers import scrap_me
 

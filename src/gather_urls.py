@@ -1,13 +1,8 @@
-import sys
 from urllib.error import HTTPError, URLError
 from urllib import request
 from bs4 import BeautifulSoup
 import ssl
-import os
 import certifi
-
-# Add the `src` directory to sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 from config import BASE_URL, HEADERS
 from util import *
 

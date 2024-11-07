@@ -1,8 +1,5 @@
 # tests/test_helper_functions.py
 import unittest
-import os, sys
-# Add the `src` directory to sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 from src.util import filter_recipe_link, format_link
 
 
