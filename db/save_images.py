@@ -2,7 +2,7 @@ import certifi
 import ssl
 from os import path
 from urllib import request
-import src.config as config
+import config
 from db.json_db import *
 
 
@@ -58,4 +58,6 @@ def main(test_recipes=False):
 
 
 if __name__ == '__main__':
-    main()
+    print(config.IMAGE_FOLDER_PATH)
+    print(os.path.exists(config.IMAGE_FOLDER_PATH))
+    # main()

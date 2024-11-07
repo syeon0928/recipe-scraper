@@ -1,9 +1,9 @@
-from urllib.error import HTTPError, URLError
+from urllib.error import URLError
 from urllib import request
 from bs4 import BeautifulSoup
 import ssl
 import certifi
-from src.config import BASE_URL, HEADERS
+from config import HEADERS
 from src.util import *
 
 

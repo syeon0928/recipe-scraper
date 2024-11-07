@@ -1,7 +1,6 @@
 # tests/test_gather_urls.py
 import unittest
 from src.gather_urls import *
-from src.config import *
 
 
 class TestScraper(unittest.TestCase):

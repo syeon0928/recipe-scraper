@@ -1,10 +1,7 @@
 import json
 import os
 import sys
-
-# Add the `src` directory to sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-from src.config import *
+from config import *
 
 
 def load_json_to_set(filename=RECIPES_URL_FILE_PATH):

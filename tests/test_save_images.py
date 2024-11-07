@@ -1,9 +1,7 @@
 # tests/test_gather_urls.py
-import sys
-import os
 import unittest
 from db.save_images import *
-from src.config import *
+from config import *
 
 
 class TestCaseBase(unittest.TestCase):
