@@ -3,32 +3,67 @@
 [![Build Status](https://travis-ci.org/hhursev/recipe-scraper.svg?branch=master)](https://travis-ci.org/hhursev/recipe-scraper)
 [![Coverage Status](https://coveralls.io/repos/hhursev/recipe-scraper/badge.svg?branch=master&service=github)](https://coveralls.io/github/hhursev/recipe-scraper?branch=master)
 
-**Note:** This is a personal fork of the original [recipe-scraper repository](https://github.com/hhursev/recipe-scraper) by [hhursev](https://github.com/hhursev) mainly modified for [Epicurious website](http://epicurious.com).
+**Note:** This is a personal fork of the original [recipe-scraper repository](https://github.com/hhursev/recipe-scraper) by [hhursev](https://github.com/hhursev) mainly modified for Epicurious website.
 
-### Modification in This Fork
-1. Fix existing scraping code for recipe title, ingredients, instructions, and total time to match the changes in [epicurious.com](https://epicurious.com)
-2. Added feature to extract recipe tags, servings, and ratings
+A web scraping tool for gathering structured recipe data from Epicurious.com as of 7th Nov 2024. This project is tailored for data analytics and data science, making it easy to collect, process, and store recipes for further analysis in recipe-related projects. Currently, only [Epicurious.com](epicurious.com) is fully supported with up-to-date scraping logic, though the code structure allows for future expansion to other recipe sites.
+
+### Modified Features in this Fork
+1. Fix existing scraping code for recipe title, ingredients, instructions, image link and total time to match the changes in epicurious.com. 
+2. Collected extra features such as recipe tags, description, ratings, rating counts, servings, author and publish date
+3. Gathers all available recipe URLs from Epicurious, storing them in a JSON file for systematic scraping.
+4. Saves scraped recipes for all possible recipes url to MongoDB or as a local JSON file, with images saved locally in an images folder.
+
+### Usage
+Clone the repository and install dependencies
 ```
-from recipe_scrapers import scrap_me
-
-# give the url as a string, it can be url from any site listed below
-    scrap_me = scrap_me('https://www.epicurious.com/recipes/food/views/spicy-sichuan-tofu-em-mapo-doufu-em-242878')
-
-    scrap_me.picture()
-    scrap_me.tags()
-    scrap_me.servings()
-    scrap_me.ratings()
+git clone https://github.com/syeon0928/recipe-scraper.git
+cd recipe-scraper
+pip install -e .
 ```
-3. src folder contains follow:
- - gather_urls.py : logic for gathering all possible recipe urls in the website and save as json
- - scrape.py : functions for scraping recipe information from url parameter
 
-4. db folder contains code related to saving urls as json, and saving recipe database to MongoDB.
+Running main.py will first gather recipe list from epicurious.com, then save the individual recipes for all urls, and save the images as local file in 'db/images' directory.
+```
+python main.py
+```
+You can choose to save data in MongoDB. Set the MongoDB URI in the .env file if you want to use MongoDB as a storage backend.
 
-5. ToDO: update scrapers for other websites in the future, and combine them into current logic
+```
+python main.py --mongodb 
+```
+
+
+
+
+### Project Structure
+```
+recipe-scraper/
+├── db/
+│   ├── mongo_db.py          # MongoDB connection functions
+│   ├── save_json.py         # JSON save functions
+│   ├── save_images.py       # Logic to save images locally
+│   ├── images/              # Directory for saving images locally
+│   ├── recipe_urls.json     # JSON file storing all gathered recipe URLs
+│   └── recipe.json          # JSON file storing all scraped recipe data
+├── recipe_scrapers/
+│   ├── _abstract.py         # Abstract class for scraper classes
+│   ├── _util.py             # Helper functions
+│   ├── epicurious.py        # Scraping Epicurious.com recipe
+│   └── etc.                 # More scrapers (NEED TO BE UPDATED)
+├── src/
+│   ├── gather_urls.py       # Logic to gather recipe URLs from Epicurious.com
+│   ├── scrape.py            # Logic to scrape each recipe URL using recipe-scraper
+│   └── util.py              # Helper functions
+├── config.py                # Configuration file for MongoDB and other settings
+├── README.md                # Project documentation
+├── requirements.txt         # Python dependencies
+├── test.py                  # Running all tests
+└── main.py                  # Main script for running the entire scraping process
+```
+### TODO
+Extend the logic to other websites.
 
 ---
-### original ReadMe
+### Original ReadMe
 A simple web scraping tool for recipe sites I use in a project of mine that makes sense to live as
 a separate package. **No Python 2 support.**
 
