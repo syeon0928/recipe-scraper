@@ -31,6 +31,19 @@ def save_image_locally(file_name, img_url):
         print(f'Error message: {e}')
 
 
+def update_recipes(all_recipes):
+    """Update recipes by removing URL fields and adding image filenames."""
+    updated_recipes = []
+    for recipe in all_recipes:
+        recipe_copy = recipe.copy()  # Avoid modifying the original
+        image_filename = extract_filename(recipe['url'])
+        recipe_copy['image_filename'] = image_filename
+        recipe_copy.pop('url', None)  # Remove 'url'
+        recipe_copy.pop('picture_link', None)  # Remove 'picture_link'
+        updated_recipes.append(recipe_copy)
+    return updated_recipes
+
+
 def save_all_images(test_recipes=False):
     # Check already existing file names
     images_extracted = [name.replace('.jpg', '') for name in os.listdir(config.IMAGE_FOLDER_PATH)]
@@ -45,19 +58,23 @@ def save_all_images(test_recipes=False):
                     for recipe in all_recipes if recipe['picture_link']}
 
     # Filter already extracted images
-    # Collect keys to remove
+    # 1. Collect keys to remove
     keys_to_remove = [key for key in all_img_urls.keys() if key in images_extracted]
 
-    # Remove collected keys after the loop
+    # 2. Remove collected keys after the loop
     for key in keys_to_remove:
         del all_img_urls[key]
     print(f'{len(all_img_urls)} images to be extracted.')
 
-    # Save images locally for filtered out image links
+    # 3. Save images locally for filtered out image links
     for i, key in enumerate(all_img_urls.keys()):
         img_url = all_img_urls[key]
         save_image_locally(key, img_url)
         print(f'{i}: {img_url} saved.')
+
+    # Update recipes and save them
+    updated_recipes = update_recipes(all_recipes)
+    save_to_json(updated_recipes, 'recipes_images.json')
 
 
 if __name__ == '__main__':
