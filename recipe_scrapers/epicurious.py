@@ -64,12 +64,6 @@ class Epicurious(AbstractScraper):
         return {i + 1: instructions[i] for i in range(len(instructions))}
 
     def picture(self):
-        # recipe_photo = self.soup.find_all('img',
-        #                                   c)
-        # if not recipe_photo:
-        #     return None
-        # return recipe_photo[2]['src']
-
         recipe_image_div = self.soup.find('div', {'data-testid': 'ContentHeaderLeadAsset'})
         if not recipe_image_div:
             return None

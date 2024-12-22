@@ -8,7 +8,7 @@ from db.save_images import *
 
 
 def scrape_all_recipe_urls_from_menu():
-    # from the cnofig.recipe menu dictionary
+    # from the config.recipe menu dictionary
     all_links = load_json_to_set()
 
     # Scrape from recipe menus
