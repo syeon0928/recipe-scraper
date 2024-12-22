@@ -7,6 +7,8 @@
 
 A web scraping tool for gathering structured recipe data from Epicurious.com as of 7th Nov 2024. This project is tailored for data analytics and data science, making it easy to collect, process, and store recipes for further analysis in recipe-related projects. Currently, only [Epicurious.com](epicurious.com) is fully supported with up-to-date scraping logic, though the code structure allows for future expansion to other recipe sites.
 
+Find the dataset [here](https://www.kaggle.com/datasets/seungyeonhan1/recipe-dataset-with-images-tags-and-ratings/data)
+
 ### Modified Features in this Fork
 1. Fix existing scraping code for recipe title, ingredients, instructions, image link and total time to match the changes in epicurious.com. 
 2. Collected extra features such as recipe tags, description, ratings, rating counts, servings, author and publish date
